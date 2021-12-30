@@ -1,12 +1,15 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
-
+// import Routes from "./Routes";
 import Routes from "./Routes";
+import SocketProvider from "./common/SocketProvider";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes />
+      <SocketProvider>
+        <Routes />
+      </SocketProvider>
     </BrowserRouter>
   );
 }

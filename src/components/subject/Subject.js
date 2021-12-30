@@ -6,7 +6,7 @@ import subjectService from "../../services/subjectService";
 
 function SubjectUi(props) {
   return (
-    <div class="">
+    <div>
       <SubjectGrid {...props}></SubjectGrid>
     </div>
   );

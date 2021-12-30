@@ -6,6 +6,7 @@ const config = {
   appVersion: process.env.REACT_APP_VERSION,
   baseURI: process.env.REACT_APP_API_BASE_URI,
   mqttPort: process.env.REACT_APP_MQTT_PORT,
+  socketURI: process.env.REACT_APP_SOCKET_BASE_URI,
   mqttHost: process.env.REACT_APP_MQTT_HOST,
   publicVapidKey: process.env.REACT_APP_PUBLIC_VAPID_KEY,
 };

@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { routes } from "../Routes";
+import { routes } from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";

@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import TrashIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
-import { routes } from "../Routes";
+import { routes } from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
 const columns = ({ handleRecord }) => [
   { field: "id", headerName: "ID", width: 70 },
@@ -130,7 +130,6 @@ function SubjectGridUi(props) {
       });
   };
   const handleRecord = (value) => {
-    console.log(value);
     const url = routes.GAIT_LOGGER.url.replace(":subjectId", value.id);
     navigate(url);
   };
