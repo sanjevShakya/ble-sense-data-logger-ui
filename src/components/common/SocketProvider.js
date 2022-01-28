@@ -11,7 +11,6 @@ export const SocketContext = React.createContext({
 
 function SocketComponent(props) {
   const [socket, setSocket] = useState(null);
-  console.log('socket', socket);
 
   useEffect(() => {
     const oSocket = io(config.socketURI);

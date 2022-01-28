@@ -1,4 +1,5 @@
 import React from "react";
+import "./registerChart";
 // import Routes from "./Routes";
 import Routes from "./Routes";
 import SocketProvider from "./common/SocketProvider";
