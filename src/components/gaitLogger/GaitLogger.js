@@ -7,12 +7,16 @@ import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import ClearIcon from "@mui/icons-material/HighlightOff";
 import PauseButton from "@mui/icons-material/Pause";
 import { SocketContext } from "../common/SocketProvider";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
-import RealtimeVisualization from "../realtimeVisualization/RealtimeVisualization";
+import LinkIcon from "@mui/icons-material/LinkOutlined";
+import * as gaitLoggerService from "../../services/gaitLoggerService";
+import subjectService from "../../services/subjectService";
+
 let STATES = {
   INIT: 1,
   RECORD: 2,
@@ -31,6 +35,11 @@ let STATE_DESC = {
   },
 };
 
+const SENSOR_NAMES = {
+  LEFT: "LEFT",
+  RIGHT: "RIGHT",
+};
+
 const SOCKET_CONSTANTS = {
   STATE_CHANGE: "stateChange",
   GAIT_CLASS_CHANGE: "gaitClassChange",
@@ -39,26 +48,21 @@ const SOCKET_CONSTANTS = {
 };
 
 function GaitLoggerApp(props) {
+  let count = 0;
   const { socket } = props;
   const params = useParams();
   const [gaitClass, updateGaitClass] = useState(null);
-  const [serialData, updateSerialData] = useState("");
   const [loggerState, setLoggerState] = useState(null);
+  const [subject, updateSubject] = useState({});
 
   useEffect(() => {
-    const loggerStateListener = (data) => {
-      const { value } = data;
-      setLoggerState(value);
-    };
+    fetchSubjectById();
+  }, []);
 
-    const gaitClassStateListener = (data) => {
-      const { value } = data;
-      updateGaitClass(value);
-    };
-
+  useEffect(() => {
     socket.on(SOCKET_CONSTANTS.STATE_CHANGE, loggerStateListener);
     socket.on(SOCKET_CONSTANTS.GAIT_CLASS_CHANGE, gaitClassStateListener);
-    socket.on(SOCKET_CONSTANTS.ACCEL_DATA, handleReceiveAccelData);
+    // socket.on(SOCKET_CONSTANTS.ACCEL_DATA, handleReceiveAccelData);
     socket.emit(SOCKET_CONSTANTS.INIT_STATE, { subjectId: params.subjectId });
 
     return () => {
@@ -66,10 +70,33 @@ function GaitLoggerApp(props) {
     };
   }, [socket]);
 
-  const handleReceiveAccelData = (data) => {
-    if (data) {
-      updateSerialData(data);
-    }
+  const loggerStateListener = (data) => {
+    const { value } = data;
+    setLoggerState(value);
+  };
+
+  const gaitClassStateListener = (data) => {
+    const { value } = data;
+    updateGaitClass(value);
+  };
+
+  // const handleReceiveAccelData = (data) => {
+  //   if (data && data.sensorName === SENSOR_NAMES.RIGHT) {
+  //     updateSerialData(data);
+  //   }
+  //   if (data && data.sensorName === SENSOR_NAMES.LEFT) {
+  //     updateLeftSerialData(data);
+  //   }
+  // };
+
+  const fetchSubjectById = () => {
+    // const subjectId
+    return subjectService
+      .getById(params.subjectId)
+      .then(({ data }) => {
+        updateSubject(data.data);
+      })
+      .catch((err) => {});
   };
 
   const handleStateChange = (state) => {
@@ -88,6 +115,12 @@ function GaitLoggerApp(props) {
     });
   };
 
+  const reconnectSerial = () => {
+    gaitLoggerService.reconnect().then((data) => {
+      console.log("RECONNECTED");
+    });
+  };
+
   return (
     <Grid container columns={12}>
       <Grid item xs={12}>
@@ -96,13 +129,26 @@ function GaitLoggerApp(props) {
             <CardContent sx={{ flex: "1 0 auto" }}>
               <Typography component="div" variant="h5">
                 Gait Logger Device
+                <IconButton
+                  aria-label="reconnect"
+                  onClick={() => reconnectSerial()}
+                >
+                  <LinkIcon sx={{ height: 38, width: 38 }} />
+                </IconButton>
               </Typography>
               <Typography
                 variant="subtitle1"
                 color="text.secondary"
                 component="div"
               >
-                Sanjeev Shakya
+                {subject.firstname + " " + subject.lastname}
+              </Typography>{" "}
+              <Typography
+                variant="subtitle2"
+                color="text.secondary"
+                component="div"
+              >
+                {subject.firstname + " " + subject.lastname}
               </Typography>
               <Typography
                 variant="subtitle2"
@@ -112,6 +158,7 @@ function GaitLoggerApp(props) {
                 Status: {(loggerState && STATE_DESC[loggerState].name) || "N/A"}
               </Typography>
             </CardContent>
+
             <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
               {loggerState === STATES.INIT && (
                 <div>
@@ -135,12 +182,20 @@ function GaitLoggerApp(props) {
                 </div>
               )}
               {!!gaitClass && loggerState === STATES.PAUSE && (
-                <IconButton
-                  aria-label="play"
-                  onClick={() => handleStateChange(STATES.RECORD)}
-                >
-                  <PlayArrowIcon sx={{ height: 38, width: 38 }} />
-                </IconButton>
+                <div>
+                  <IconButton
+                    aria-label="play"
+                    onClick={() => handleStateChange(STATES.RECORD)}
+                  >
+                    <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+                  </IconButton>
+                  <IconButton
+                    aria-label="clear"
+                    onClick={() => handleStateChange(STATES.INIT)}
+                  >
+                    <ClearIcon sx={{ height: 38, width: 38 }} />
+                  </IconButton>
+                </div>
               )}
               {!!gaitClass && loggerState === STATES.RECORD && (
                 <IconButton
@@ -152,12 +207,6 @@ function GaitLoggerApp(props) {
               )}
             </Box>
           </Box>
-        </Card>
-      </Grid>
-
-      <Grid item xs={12}>
-        <Card sx={{ display: "flex" }}>
-          <RealtimeVisualization loggerState={loggerState} serialData={serialData} />
         </Card>
       </Grid>
     </Grid>

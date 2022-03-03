@@ -25,8 +25,6 @@ const chart = (label, color, data) => {
         fill: false,
         data: data,
         borderColor: color,
-        min: -4,
-        max: 4,
       },
     ],
   };
@@ -63,8 +61,6 @@ const options = {
   scales: {
     y: {
       type: "linear",
-      min: -4,
-      max: 4,
     },
   },
 };
@@ -76,14 +72,7 @@ function RealtimeVisualization(props) {
   const [ay, updateAy] = useFixedQueue(FIXED_QUEUE_LEN);
   const [az, updateAz] = useFixedQueue(FIXED_QUEUE_LEN);
 
-  useEffect(() => {
-    // instance.postMessage({canvas: offscreenCanvas, config}, [offscreenCanvas]);
-    // instance.onmessage = (message) => {
-    //   if (message) {
-    //     console.log("Message from worker", message.data);
-    //   }
-    // };
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     if (props.serialData && count % 2 == 0) {
@@ -98,22 +87,6 @@ function RealtimeVisualization(props) {
     const newCount = count + 1;
     updateCount(newCount);
   }, [props.serialData, props.loggerState]);
-
-  // useEffect(() => {
-  //   const interval = timeSeriesDataService.generateDataPeriodically({
-  //     min: -4,
-  //     max: 4,
-  //     cb: handleReceiveData,
-  //   });
-  //   setDataInterval(interval);
-  // }, []);
-
-  // useEffect(
-  //   () => () => {
-  //     setDataInterval(null);
-  //   },
-  //   []
-  // );
 
   const handleReceiveData = (data) => {
     updateAx(data);

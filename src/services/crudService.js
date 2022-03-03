@@ -13,6 +13,10 @@ class CRUD {
     return http.get(this.endpoint);
   }
 
+  getById(id) {
+    return http.get(this.getByIdEnpoint(id));
+  }
+
   put(id, body) {
     return http.get(this.getByIdEnpoint(id), { body });
   }
