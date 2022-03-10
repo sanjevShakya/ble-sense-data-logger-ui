@@ -6,20 +6,13 @@ import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
-import MenuIcon from "@mui/icons-material/Menu";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
-const pages = ["Subjects", "Classes"];
 
 const routesDefs = {
   subjects: {
     link: routes.SUBJECT.url,
     name: "Subjects",
-  },
-  classes: {
-    link: routes.CLASSES.url,
-    name: "Classes",
   },
 };
 
@@ -53,28 +46,16 @@ const ResponsiveAppBar = () => {
             IT DETECTION
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-          </Box>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            sx={{ flexGrow: 1, }}
           >
             G<DirectionsRunIcon />
             IT DETECTION
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1 }} style={{display: 'flex'}}>
             {Object.keys(routesDefs).map((routeKey, index) => (
               <Button
                 key={index}

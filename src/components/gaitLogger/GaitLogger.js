@@ -47,6 +47,66 @@ const SOCKET_CONSTANTS = {
   ACCEL_DATA: "serialData",
 };
 
+const GAIT_CLASSES = {
+  noMovement: {
+    name: "noMovement",
+    displayName: "Stand still",
+    value: 1,
+    description: "Standing upright in one position",
+  },
+  normalGait: {
+    name: "normalGait",
+    displayName: "Normal gait",
+    value: 2,
+    description: "Normal gait walking",
+  },
+  waddlingGait: {
+    name: "waddlingGait",
+    displayName: "Waddling gait",
+    value: 3,
+    description: "Feets apart and walk like pengiun",
+  },
+  propulsiveGait: {
+    name: "propulsiveGait",
+    displayName: "Propulsive gait",
+    value: 4,
+    description:
+      "Feets near, pointing forward and lean your back forward and move forward like your falling down",
+  },
+  spasticGait: {
+    name: "spasticGait",
+    displayName: "Spastic Gait",
+    value: 5,
+    description: "Feets inward, and move forward",
+  },
+  class6: {
+    name: "class6",
+    displayName: "Class 6",
+    value: 6,
+    description: "Free class to record",
+  },
+  class7: {
+    name: "class7",
+    displayName: "Class 7",
+    value: 7,
+    description: "Free class to record",
+  },
+  class8: {
+    name: "class8",
+    displayName: "Class 8",
+    value: 8,
+    description: "Free class to record",
+  },
+  class9: {
+    name: "class9",
+    displayName: "Class 9",
+    value: 9,
+    description: "Free class to record",
+  },
+};
+
+const GAIT_CLASS_LIST = Object.keys(GAIT_CLASSES).map((k) => GAIT_CLASSES[k]);
+
 function GaitLoggerApp(props) {
   let count = 0;
   const { socket } = props;
@@ -170,14 +230,11 @@ function GaitLoggerApp(props) {
                     label="Gait Classes"
                     onChange={handleChange}
                   >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={1}>Class 1</MenuItem>
-                    <MenuItem value={2}>Class 2</MenuItem>
-                    <MenuItem value={3}>Class 3</MenuItem>
-                    <MenuItem value={3}>Class 4</MenuItem>
-                    <MenuItem value={3}>Class 5</MenuItem>
+                    {GAIT_CLASS_LIST.map((gaitClass) => (
+                      <MenuItem value={gaitClass.value} key={gaitClass.value}>
+                        {gaitClass.displayName} - {gaitClass.description}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </div>
               )}
