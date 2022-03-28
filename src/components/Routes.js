@@ -5,7 +5,8 @@ import AppContainer from "./common/AppContainer";
 
 import Subject from "./subject/Subject";
 import GaitLogger from "./gaitLogger/GaitLogger";
-import {routes} from '../constants/routes';
+import GaitDetection from './inference/GaitDetection'
+import { routes } from "../constants/routes";
 
 function AppRoutes() {
   return (
@@ -13,6 +14,7 @@ function AppRoutes() {
       <Route path={routes.ROOT.url} element={<AppContainer />}>
         <Route path={routes.SUBJECT.url} element={<Subject />} />
         <Route path={routes.GAIT_LOGGER.url} element={<GaitLogger />} />
+        <Route path={routes.GAIT_DETECTION.url} element={<GaitDetection />} />
         <Route path={routes.CLASSES.url} element={<div />} />
       </Route>
     </Routes>

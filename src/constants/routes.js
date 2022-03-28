@@ -11,4 +11,7 @@ export const routes = {
   CLASSES: {
     url: "/classes",
   },
+  GAIT_DETECTION: {
+    url: "/gait-detection",
+  }
 };

@@ -35,22 +35,22 @@ let STATE_DESC = {
   },
 };
 
-const SENSOR_NAMES = {
+export const SENSOR_NAMES = {
   LEFT: "LEFT",
   RIGHT: "RIGHT",
 };
 
-const SOCKET_CONSTANTS = {
+export const SOCKET_CONSTANTS = {
   STATE_CHANGE: "stateChange",
   GAIT_CLASS_CHANGE: "gaitClassChange",
   INIT_STATE: "initState",
   ACCEL_DATA: "serialData",
 };
 
-const GAIT_CLASSES = {
+export const GAIT_CLASSES = {
   noMovement: {
     name: "noMovement",
-    displayName: "Stand still",
+    displayName: "No motion",
     value: 1,
     description: "Standing upright in one position",
   },

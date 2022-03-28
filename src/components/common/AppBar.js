@@ -14,6 +14,10 @@ const routesDefs = {
     link: routes.SUBJECT.url,
     name: "Subjects",
   },
+  detection: {
+    link: routes.GAIT_DETECTION.url,
+    name: "Gait Detection",
+  },
 };
 
 const ResponsiveAppBar = () => {
